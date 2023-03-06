@@ -29,17 +29,37 @@ export const addCheckedOut = createAsyncThunk(
     return res.data;
   }
 );
+// export const demo = createAsyncThunk(
+//   "checkedout/demo",
+//   async () => {
+//     console.log("demo");
+//     const res = await axios.get(
+//       `http://localhost:8080/api/todo/demo`, {
+//         headers: {
+//           Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW0iLCJyb2xlIjoiW1VTRVJdIiwiaWF0IjoxNjc4MDQ0NjY5LCJleHAiOjE2NzgxMzEwNjl9.4V3a7t65_yIv1wzodOIDN8JeuyEgnUFoCZYkeakCpDWTZUOXARbWiFo6fi5000uwxPagSG_P7okY_yqpgUdEYg`,
+//         },
+//        }
+//     );
+//     return res.data;
+//   }
+// );
 
 const checkedoutSlice = createSlice({
   name: "checkedout",
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getAllCheckedOut.fulfilled, (state, action) => {
-      state.checkedoutList = action.payload;
-    }).addCase(addCheckedOut.fulfilled, (state, action) => {
-      state.checkedoutList.push(action.payload)
-    });
+    builder
+      .addCase(getAllCheckedOut.fulfilled, (state, action) => {
+        state.checkedoutList = action.payload;
+      })
+      .addCase(addCheckedOut.fulfilled, (state, action) => {
+        state.checkedoutList.push(action.payload);
+      });
+    // .addCase(demo.fulfilled, (state, action) => {
+    // console.log(action.payload);
+
+    // });
   },
 });
 

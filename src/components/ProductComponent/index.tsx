@@ -38,6 +38,8 @@ function ProductComponent({ product }: ProductComponentProps) {
           Toast.notify(`đã thêm vào giỏ hàng 1 ${product.name}`);
         })
         .catch((error) => {
+          console.log(error);
+          
           Toast.error("Lỗi");
         });
     }

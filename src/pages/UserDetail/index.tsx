@@ -65,10 +65,13 @@ function UserDetail() {
         userId: userInfo.id,
         updatedInfo: { imgUrl: avatarUrl, name: "", phone: "", address: "" },
       })
-    );
-    if (userInfo.imgUrl !== avatarUrl) {
+    ).unwrap()
+    .then(() => {
       Toast.notify("cập nhật avatar thành công");
-    }
+    })
+    .catch((error) => {
+      Toast.error("Lỗi");
+    });
     // setTimeout(() => {
     //   window.location.reload();
     // }, 1500);

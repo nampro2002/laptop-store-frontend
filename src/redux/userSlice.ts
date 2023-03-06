@@ -26,8 +26,17 @@ const initialState: initState = {
 export const register = createAsyncThunk(
   "user/register",
   async (newUser: Omit<IUser, "id">) => {
-    const res = await axios.post("http://localhost:8080/register", newUser);
-    return res.data;
+    const jwtJson = localStorage.getItem("token");
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    let res;
+    try {
+      res = await axios.post("http://localhost:8080/register", newUser);
+      console.log(res);      
+    } catch (error) {
+      console.log(error);
+    }
+
+    return res?.data;
   }
 );
 export const login = createAsyncThunk(

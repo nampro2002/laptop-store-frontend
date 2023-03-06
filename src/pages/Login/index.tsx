@@ -32,9 +32,9 @@ function Login() {
         }, 1500);
         Toast.notify("đăng nhập thành công");
       })
-      .catch((err) => {
+      .catch((error) => {
         Toast.error("Lỗi");
-        console.log(err);
+        console.log(error);
         
       });
   };

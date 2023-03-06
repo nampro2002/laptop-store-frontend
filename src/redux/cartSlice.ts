@@ -18,8 +18,17 @@ const initialState: initState = {
 export const getAllCart = createAsyncThunk(
   "cartList/getAllCart",
   async (userId: string) => {
-    const res = await axios.get(`http://localhost:8080/cart?userId=${userId}`);
-    // const res = await axios.get(`http://localhost:8080/cart?userId=${userId}`);    
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    const res = await axios.get(
+      `http://localhost:8080/api/cart?userId=${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
+    // const res = await axios.get(`http://localhost:8080/cart?userId=${userId}`);
     return res.data;
   }
 );
@@ -33,7 +42,16 @@ export const CheckCart = createAsyncThunk(
     }: { productId: number; quantity: number; userId: number },
     thunkAPI
   ) => {
-    const res = await axios.get(`http://localhost:8080/cart?userId=${userId}`);
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    const res = await axios.get(
+      `http://localhost:8080/api/cart?userId=${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
     const cartList = res.data;
     const productCart: Omit<ICart, "id"> = {
       prodId: productId,
@@ -44,11 +62,11 @@ export const CheckCart = createAsyncThunk(
       if (prod.prodId === productId) {
         thunkAPI.dispatch(
           updateToCart({
-            id: prod.id,           
+            id: prod.id,
             productCart: {
               prodId: prod.prodId,
               quantity: prod.quantity + quantity,
-            }
+            },
           })
         );
         return true;
@@ -62,25 +80,62 @@ export const CheckCart = createAsyncThunk(
 );
 export const updateToCart = createAsyncThunk(
   "cartList/updateToCart",
-  async ({id, productCart}: {id:number , productCart:  Omit<ICart, "id" | "userId">}) => {
+  async ({
+    id,
+    productCart,
+  }: {
+    id: number;
+    productCart: Omit<ICart, "id" | "userId">;
+  }) => {
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
     const res = await axios.put<ICart>(
-      `http://localhost:8080/cart/${id}`,
-      productCart
+      `http://localhost:8080/api/cart/${id}`,
+      productCart,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
     );
     return res.data;
   }
 );
-export const addToCart = createAsyncThunk(
+// export const addToCart = createAsyncThunk(
+//   "cartList/addToCart",
+//   async (productCart: Omit<ICart, "id">) => {
+//     // console.log("productCart", productCart);
+//     const res = await axios.post<ICart>(
+//       "http://localhost:8080/cart",
+//       productCart
+//     );
+//     return res.data;
+//   }
+// );
+
+const addToCart = createAsyncThunk(
   "cartList/addToCart",
-  async (productCart: Omit<ICart, "id">) => {
-    // console.log("productCart", productCart);    
+  async (productCart: Omit<ICart, "id">, { getState }) => {
+    console.log("add");
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    // const headers = jwt ? { Authorization: `Bearer ${jwt}` } : {}; // Tạo headers nếu token tồn tại
     const res = await axios.post<ICart>(
-      "http://localhost:8080/cart",
-      productCart
-    );
+      "http://localhost:8080/api/cart",
+      productCart,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    ); // Gửi request với headers
+    // console.log("jwt", jwt);
+    // console.log("headers", headers);
+    // console.log("res.data", res.data);
     return res.data;
   }
 );
+
 // export const decreaseQuantity = createAsyncThunk(
 //   "cartList/decreaseQuantity",
 //   async ({id, productCart}: {id:number , productCart: Omit<ICart, "id">}) => {
@@ -105,14 +160,29 @@ export const addToCart = createAsyncThunk(
 export const removeFromCart = createAsyncThunk(
   "cartList/removeFromCart",
   async (productCartId: number) => {
-    await axios.delete(`http://localhost:8080/cart?cartId=${productCartId}`);
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    await axios.delete(
+      `http://localhost:8080/api/cart?cartId=${productCartId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      }
+    );
     return productCartId;
   }
 );
 export const removeAllFromCart = createAsyncThunk(
   "cartList/removeAllFromCart",
-  async (userId :number) => {
-    await axios.delete(`http://localhost:8080/cartAll?userId=${userId}`);
+  async (userId: number) => {
+    const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
+    const jwt = jwtJson ? JSON.parse(jwtJson) : {};
+    await axios.delete(`http://localhost:8080/api/cartAll?userId=${userId}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
     return userId;
   }
 );
@@ -124,6 +194,11 @@ const cartSlice = createSlice({
     logOutRemoveCart: (state) => {
       state.cartList = [];
     },
+    // removeFromCartReducer: (state, action) => {
+    //   state.cartList = state.cartList.filter(
+    //     (prod) => prod.userId !== action.payload
+    //   );
+    // },
   },
   extraReducers(builder) {
     builder
@@ -163,9 +238,11 @@ const cartSlice = createSlice({
       //   });
       // })
       .addCase(removeFromCart.fulfilled, (state, action) => {
+        console.log("action.payload", action.payload);
         state.cartList = state.cartList.filter(
           (prod) => prod.userId !== action.payload
         );
+        console.log("state.cartList", state.cartList);
       })
       .addCase(removeAllFromCart.fulfilled, (state, action) => {
         state.cartList = [];

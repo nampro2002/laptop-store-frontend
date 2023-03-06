@@ -54,13 +54,15 @@ function SignUp() {
       };
       dispatch(register(newUser))
         .unwrap()
-        .then(() => {
+        .then((out) => {
+          console.log(out);    
           Toast.notify("đăng ký thành công");
           setTimeout(() => {
             return navigate("/login");
           }, 1500);
         })
         .catch((error) => {
+          console.log(error);          
           Toast.error("Lỗi");
         });
     },
