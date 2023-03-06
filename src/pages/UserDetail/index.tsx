@@ -53,8 +53,8 @@ function UserDetail() {
           Toast.notify("cập nhật mật khẩu thành công");
           resetForm();
         })
-        .catch((error) => {
-          Toast.error("Lỗi");
+        .catch((error:any) => {
+          Toast.error(error.message);
         });
     },
   });
@@ -135,8 +135,8 @@ function UserDetail() {
               window.location.reload();
             }, 1500);
           })
-          .catch((error) => {
-            Toast.error("Lỗi");
+          .catch((error) => {          
+            Toast.error(error.message);
           });
       }
     },

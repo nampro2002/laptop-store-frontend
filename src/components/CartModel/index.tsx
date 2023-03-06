@@ -28,7 +28,7 @@ function CartModel({ handleClose, handleChange, setSideBar }: CartModelProps) {
   let cartPorductList = cartList.map((cart) => {
     const product = productList.find((prod) => prod.id === cart.prodId);
     if (product) {
-      const imgArr = product.imageUrl.split(", ")
+      const imgArr = product.imageUrl.split(" ")
       return {
         id: cart.id,
         prodId: cart.prodId,

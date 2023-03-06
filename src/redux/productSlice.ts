@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ICategory, IProduct } from "../types/types";
+import axiosJwt from "../Util/axiosConfig";
 
 interface initState {
   productList: IProduct[];
@@ -24,22 +25,22 @@ const initialState: initState = {
 export const getAllProduct = createAsyncThunk(
   "products/getAllProduct",
   async () => {
-    const res = await axios.get("http://localhost:8080/products");
+    const res = await axios.get("https://laptop-store-backend-production.up.railway.app/products");
     return res.data;
   }
 );
 export const getAllCategory = createAsyncThunk(
   "products/getAllCategory",
   async () => {
-    const res = await axios.get("http://localhost:8080/category");
+    const res = await axios.get("https://laptop-store-backend-production.up.railway.app/category");
     return res.data;
   }
 );
 export const updateProductRating = createAsyncThunk(
   "products/updateProductRating",
   async ({ productId, rate }: { productId: number; rate: number }) => {
-    const res = await axios.put(
-      `http://localhost:8080/product/rate/${productId}`,
+    const res = await axiosJwt.put(
+      `https://laptop-store-backend-production.up.railway.app/rate/${productId}`,
       {
         rate,
       }

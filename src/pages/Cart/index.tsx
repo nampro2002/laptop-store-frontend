@@ -41,7 +41,7 @@ function Cart() {
       const product = productList.find((prod) => prod.id === cart.prodId);
       console.log(product);
       if (product) {
-        const imgArr = product.imageUrl.split(", ")
+        const imgArr = product.imageUrl.split(" ")
         return {
           id: cart.id,
           prodId: cart.prodId,

@@ -65,7 +65,7 @@ function CartComponent({ cartProduct }: CartComponentProps) {
         Toast.error("Lỗi");
       });
   };
-  // const imgArr = cartProduct.imageUrl.split(", ");
+  // const imgArr = cartProduct.imageUrl.split(" ");
   console.log("cartProduct.imageUrl", cartProduct.imageUrl);
   return (
     <Box

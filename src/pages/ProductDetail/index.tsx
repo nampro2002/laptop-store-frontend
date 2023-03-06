@@ -61,7 +61,7 @@ function ProductDetail() {
   //   productInformation?.imageUrl3,
   //   productInformation?.imageUrl4,
   // ];
-  const listImg  = productInformation?.imageUrl.split(", ");
+  const listImg  = productInformation?.imageUrl.split(" ");
   return (
     <Box>
       {productInformation && (

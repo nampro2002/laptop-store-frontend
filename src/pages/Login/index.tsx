@@ -33,7 +33,7 @@ function Login() {
         Toast.notify("đăng nhập thành công");
       })
       .catch((error) => {
-        Toast.error("Lỗi");
+        Toast.error("username hoặc password không đúng");
         console.log(error);
         
       });

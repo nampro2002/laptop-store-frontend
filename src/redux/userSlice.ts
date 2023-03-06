@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { IUpdatePassword, IUser, IUserLogin } from "../types/types";
+import axiosJwt from "../Util/axiosConfig";
 
 interface initState {
   users: IUser[];
@@ -20,7 +21,7 @@ const initialState: initState = {
 };
 
 // export const getAllUser = createAsyncThunk("user/getAllUser", async () => {
-//   const res = await axios.get("http://localhost:8080/user/username");
+//   const res = await axios.get("https://laptop-store-backend-production.up.railway.app/user/username");
 //   return res.data;
 // });
 export const register = createAsyncThunk(
@@ -30,10 +31,9 @@ export const register = createAsyncThunk(
     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
     let res;
     try {
-      res = await axios.post("http://localhost:8080/register", newUser);
-      console.log(res);      
-    } catch (error) {
-      console.log(error);
+      res = await axios.post("https://laptop-store-backend-production.up.railway.app/register", newUser);
+    } catch (error: any) {
+      throw new Error(error.response.data);
     }
 
     return res?.data;
@@ -42,7 +42,12 @@ export const register = createAsyncThunk(
 export const login = createAsyncThunk(
   "user/login",
   async (loginInfo: IUserLogin) => {
-    const res = await axios.post("http://localhost:8080/login", loginInfo);
+    let res;
+    try {
+      res = await axios.post("https://laptop-store-backend-production.up.railway.app/login", loginInfo);
+    } catch (error: any) {
+      throw new Error(error);
+    }
     return res.data;
   }
 );
@@ -55,17 +60,23 @@ export const updateInfo = createAsyncThunk(
     userId: string;
     updatedInfo: Omit<IUser, "id" | "password" | "username">;
   }) => {
-    const res = await axios.put(
-      `http://localhost:8080/user/${userId}`,
-      updatedInfo
-    );
+    let res;
+    try {
+      res = await axiosJwt.put(
+        `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+        updatedInfo
+      );
+      console.log(res);
+    } catch (error: any) {
+      throw new Error(error.response.data);
+    }
     return res.data;
   }
 );
 export const saveAddress = createAsyncThunk(
   "user/saveAddress",
   async ({ userId, address }: { userId: string; address: string }) => {
-    const res = await axios.patch(`http://localhost:8080/user/${userId}`, {
+    const res = await axiosJwt.patch(`https://laptop-store-backend-production.up.railway.app/user/${userId}`, {
       address: address,
     });
     return res.data;
@@ -80,11 +91,12 @@ export const updateAvatar = createAsyncThunk(
     userId: string;
     updatedInfo: Omit<IUser, "id" | "password" | "username">;
   }) => {
-    const res = await axios.put(
-      `http://localhost:8080/user/${userId}`,
+    const res = await axiosJwt.put(
+      `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
       updatedInfo
     );
-
+      console.log(res);
+      
     return res.data;
   }
 );
@@ -97,10 +109,19 @@ export const updatePassword = createAsyncThunk(
     userId: string;
     updatedPassword: IUpdatePassword;
   }) => {
-    const res = await axios.patch(
-      `http://localhost:8080/user/${userId}`,
-      updatedPassword
-    );
+    let res;
+    try {
+      console.log("updatepass");
+      
+      res = await axiosJwt.patch(
+        `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+        updatedPassword
+      );
+    } catch (error: any) {
+      console.log(error);      
+      throw new Error(error.response.data);
+    }
+
     return res.data;
   }
 );

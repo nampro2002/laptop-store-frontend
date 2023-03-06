@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ICheckedout } from "../types/types";
+import axiosJwt from "../Util/axiosConfig";
 
 interface initState {
   checkedoutList: ICheckedout[];
@@ -13,8 +14,8 @@ const initialState: initState = {
 export const getAllCheckedOut = createAsyncThunk(
   "checkedout/getAllCheckedOut",
   async (userId: string) => {
-    const res = await axios.get(
-      `http://localhost:8080/history?userId=${userId}`
+    const res = await axiosJwt.get(
+      `https://laptop-store-backend-production.up.railway.app/history?userId=${userId}`
     );
     return res.data;
   }
@@ -22,8 +23,8 @@ export const getAllCheckedOut = createAsyncThunk(
 export const addCheckedOut = createAsyncThunk(
   "checkedout/addCheckedOut",
   async (newCheckedOut: ICheckedout) => {
-    const res = await axios.post(
-      `http://localhost:8080/history`,
+    const res = await axiosJwt.post(
+      `https://laptop-store-backend-production.up.railway.app/history`,
       newCheckedOut
     );
     return res.data;
@@ -34,7 +35,7 @@ export const addCheckedOut = createAsyncThunk(
 //   async () => {
 //     console.log("demo");
 //     const res = await axios.get(
-//       `http://localhost:8080/api/todo/demo`, {
+//       `https://laptop-store-backend-production.up.railway.app/api/todo/demo`, {
 //         headers: {
 //           Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW0iLCJyb2xlIjoiW1VTRVJdIiwiaWF0IjoxNjc4MDQ0NjY5LCJleHAiOjE2NzgxMzEwNjl9.4V3a7t65_yIv1wzodOIDN8JeuyEgnUFoCZYkeakCpDWTZUOXARbWiFo6fi5000uwxPagSG_P7okY_yqpgUdEYg`,
 //         },

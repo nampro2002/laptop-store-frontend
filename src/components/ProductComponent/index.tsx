@@ -44,7 +44,7 @@ function ProductComponent({ product }: ProductComponentProps) {
         });
     }
   };
-  const imgArr = product.imageUrl.split(", ");
+  const imgArr = product.imageUrl.split(" ");
   return (
     <Box width="90%" marginBottom="10%" boxShadow="">
      

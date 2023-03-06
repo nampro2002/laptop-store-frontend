@@ -215,7 +215,7 @@ export default function CustomPaginationActionsTable() {
                         >
                           {row.description.map((desc) => (
                             <>
-                              <Typography fontSize="14px" align="right">
+                              <Typography fontSize="14px" align="left" >
                                 {desc}
                               </Typography>
                             </>

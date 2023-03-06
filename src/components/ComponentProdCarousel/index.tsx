@@ -50,7 +50,7 @@ function ComponentProdCarousel({ product }: ComponentProdCarouselProps) {
       }).toString(),
     });
   };
-  const productImage = product.imageUrl.split(", ");
+  const productImage = product.imageUrl.split(" ");
   return (
     <Box
       display="flex"

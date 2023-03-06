@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
-import {Box,Typography, Stack} from '@mui/material'
-import { useAppDispatch } from '../../redux/hooks'
+import { Box, Stack, Typography } from '@mui/material';
+import { useAppDispatch } from '../../redux/hooks';
 // import { demo } from '../../redux/checkedoutSlice';
 function NotFound() {
   const dispatch = useAppDispatch();
