@@ -18,6 +18,10 @@ import { getAllProduct } from "../../redux/productSlice";
 import { getAllCart } from "../../redux/cartSlice";
 import { Toast } from "../../Util/toastify";
 import { ToastContainer } from "react-toastify";
+import InputAdornment from "@mui/material/InputAdornment";
+import { IconButton } from "@mui/joy";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 function UserDetail() {
   const userInfo = JSON.parse(localStorage.getItem("user") || "{}");
@@ -90,7 +94,7 @@ function UserDetail() {
         .required("bạn chưa nhập số điện thoại")
         .matches(
           // /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
-          /^\d{9}$/,
+          /^[0-9]{9}$/,
           "số điện thoại không hợp lệ"
         )
         .test(
@@ -157,6 +161,20 @@ function UserDetail() {
     }
     // dispatch(getAllUser());
   }, [dispatch]);
+
+  const [showPassword, setShowPassword] = useState([] as string[]);
+  const handleClickShowPassword = (name: string) =>
+    setShowPassword(
+      showPassword.includes(name)
+        ? showPassword.filter((item) => item !== name)
+        : showPassword.concat(name)
+    );
+  const handleMouseDownPassword = (name: string) =>
+    setShowPassword(
+      showPassword.includes(name)
+        ? showPassword.filter((item) => item !== name)
+        : showPassword.concat(name)
+    );
 
   return (
     <Box>
@@ -442,6 +460,11 @@ function UserDetail() {
                   <TextField
                     fullWidth
                     placeholder="old password"
+                    type={
+                      showPassword.includes("oldPassword")
+                        ? "text"
+                        : "password"
+                    }
                     sx={{
                       "& fieldset": { borderRadius: "0" },
                       "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -452,6 +475,27 @@ function UserDetail() {
                     name="oldPassword"
                     value={formPassword.values.oldPassword}
                     onChange={formPassword.handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              handleClickShowPassword("oldPassword")
+                            }
+                            onMouseDown={() =>
+                              handleMouseDownPassword("oldPassword")
+                            }
+                          >
+                            {showPassword.includes("oldPassword") ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Stack>
                 <Stack direction="column" justifyContent="space-between">
@@ -469,6 +513,11 @@ function UserDetail() {
                   <TextField
                     fullWidth
                     placeholder="new password"
+                    type={
+                      showPassword.includes("newPassword")
+                        ? "text"
+                        : "password"
+                    }
                     sx={{
                       "& fieldset": { borderRadius: "0" },
                       "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -479,6 +528,27 @@ function UserDetail() {
                     name="newPassword"
                     value={formPassword.values.newPassword}
                     onChange={formPassword.handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              handleClickShowPassword("newPassword")
+                            }
+                            onMouseDown={() =>
+                              handleMouseDownPassword("newPassword")
+                            }
+                          >
+                            {showPassword.includes("newPassword") ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Stack>
                 <Stack direction="column" justifyContent="space-between">
@@ -496,6 +566,11 @@ function UserDetail() {
                   <TextField
                     fullWidth
                     placeholder="confirm password"
+                    type={
+                      showPassword.includes("confirmPassword")
+                        ? "text"
+                        : "password"
+                    }
                     sx={{
                       "& fieldset": { borderRadius: "0" },
                       "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -506,6 +581,27 @@ function UserDetail() {
                     name="confirmPassword"
                     value={formPassword.values.confirmPassword}
                     onChange={formPassword.handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={() =>
+                              handleClickShowPassword("confirmPassword")
+                            }
+                            onMouseDown={() =>
+                              handleMouseDownPassword("confirmPassword")
+                            }
+                          >
+                            {showPassword.includes("confirmPassword") ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                 </Stack>
                 <Button

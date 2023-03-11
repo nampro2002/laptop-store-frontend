@@ -1,17 +1,20 @@
+import { IconButton } from "@mui/joy";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import InputAdornment from "@mui/material/InputAdornment";
 import { useFormik } from "formik";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import {
-  AcceptLogin,
   //  getAllUser,
-  login,
+  login
 } from "../../redux/userSlice";
-import { useEffect, useState } from "react";
 import { Toast } from "../../Util/toastify";
-import { ToastContainer } from "react-toastify";
+
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 interface LoginInfo {
   username: string;
   password: string;
@@ -76,7 +79,9 @@ function Login() {
     //   }
     // },
   });
-
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
   return (
     <Box>
       <Box width="40%" margin="0 auto" bgcolor="#fff" p="30px">
@@ -143,6 +148,7 @@ function Login() {
                     <TextField
                       fullWidth
                       placeholder="password"
+                      type={showPassword ? "text" : "password"}
                       sx={{
                         "& fieldset": { borderRadius: "0" },
                         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -153,6 +159,19 @@ function Login() {
                       name="password"
                       value={formik.values.password}
                       onChange={formik.handleChange}
+                      InputProps={{ // <-- This is where the toggle button is added.
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }}
                     />
                   </Stack>
                   <Box px="20%">

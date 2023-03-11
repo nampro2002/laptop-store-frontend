@@ -24,13 +24,11 @@ function Home() {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(GetUserInfo(userInfo));
-    //  dispatch(getTypicalProduct());
     dispatch(getAllProduct());
     dispatch(getAllCategory());
     if (userInfo.id) {
       dispatch(getAllCart(userInfo.id));
     }
-    // dispatch(getAllUser());
   }, [dispatch]);
   return (
     <Box>

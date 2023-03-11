@@ -1,5 +1,8 @@
+import { IconButton } from "@mui/joy";
 import { Box, Button, Stack, TextField, Typography } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
 import { useFormik } from "formik";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import * as Yup from "yup";
@@ -7,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import { register } from "../../redux/userSlice";
 import { Toast } from "../../Util/toastify";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 function SignUp() {
   const userList = useAppSelector((state: RootState) => state.user.users);
   const dispatch = useAppDispatch();
@@ -21,12 +26,11 @@ function SignUp() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("bạn chưa nhập tên"),
-      username: Yup.string()
-        .required("bạn chưa nhập username")
-        // .test("duplicate-username", "username này đã tồn tại rồi", (value) => {
-        //   return !userList.some((user) => user.username === value);
-        // }),
-      ,password: Yup.string().required("bạn chưa nhập password"),
+      username: Yup.string().required("bạn chưa nhập username"),
+      // .test("duplicate-username", "username này đã tồn tại rồi", (value) => {
+      //   return !userList.some((user) => user.username === value);
+      // }),
+      password: Yup.string().required("bạn chưa nhập password"),
       confirmPassword: Yup.string()
         .required("bạn chưa nhập lại password")
         .oneOf([Yup.ref("password"), null], "phải trùng với password"),
@@ -34,16 +38,16 @@ function SignUp() {
         .required("bạn chưa nhập số điện thoại")
         .matches(
           // /^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/,
-          /^\d{9}$/,
+          /^[0-9]{9}$/,
           "số điện thoại không hợp lệ"
-        )
-        // .test(
-        //   "duplicate-phonenumber",
-        //   "số điện thoại này đã tồn tại rồi",
-        //   (value) => {
-        //     return !userList.some((user) => user.phone === value);
-        //   }
-        // ),
+        ),
+      // .test(
+      //   "duplicate-phonenumber",
+      //   "số điện thoại này đã tồn tại rồi",
+      //   (value) => {
+      //     return !userList.some((user) => user.phone === value);
+      //   }
+      // ),
     }),
     onSubmit: () => {
       const newUser = {
@@ -55,21 +59,33 @@ function SignUp() {
       dispatch(register(newUser))
         .unwrap()
         .then((out) => {
-          console.log(out);    
+          console.log(out);
           Toast.notify("đăng ký thành công");
           setTimeout(() => {
             return navigate("/login");
           }, 1500);
         })
-        .catch((error) => {      
+        .catch((error) => {
           Toast.error(error.message);
         });
     },
   });
+  const [showPassword, setShowPassword] = useState([] as string[]);
+  const handleClickShowPassword = (name: string) =>
+    setShowPassword(
+      showPassword.includes(name)
+        ? showPassword.filter((item) => item !== name)
+        : showPassword.concat(name)
+    );
+  const handleMouseDownPassword = (name: string) =>
+    setShowPassword(
+      showPassword.includes(name)
+        ? showPassword.filter((item) => item !== name)
+        : showPassword.concat(name)
+    );
 
   return (
     <Box>
-     
       <Box width="40%" margin="0 auto" bgcolor="#fff" p="30px">
         <Stack>
           <Box>
@@ -189,6 +205,9 @@ function SignUp() {
                     <TextField
                       fullWidth
                       placeholder="password"
+                      type={
+                        showPassword.includes("password") ? "text" : "password"
+                      }
                       sx={{
                         "& fieldset": { borderRadius: "0" },
                         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -199,6 +218,27 @@ function SignUp() {
                       name="password"
                       value={formik.values.password}
                       onChange={formik.handleChange}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() =>
+                                handleClickShowPassword("password")
+                              }
+                              onMouseDown={() =>
+                                handleMouseDownPassword("password")
+                              }
+                            >
+                              {showPassword.includes("password") ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Stack>
                   <Stack direction="column" justifyContent="space-between">
@@ -216,6 +256,11 @@ function SignUp() {
                     <TextField
                       fullWidth
                       placeholder="confirm password"
+                      type={
+                        showPassword.includes("confirmPassword")
+                          ? "text"
+                          : "password"
+                      }
                       sx={{
                         "& fieldset": { borderRadius: "0" },
                         "& .Mui-focused .MuiOutlinedInput-notchedOutline": {
@@ -226,6 +271,27 @@ function SignUp() {
                       name="confirmPassword"
                       value={formik.values.confirmPassword}
                       onChange={formik.handleChange}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={() =>
+                                handleClickShowPassword("confirmPassword")
+                              }
+                              onMouseDown={() =>
+                                handleMouseDownPassword("confirmPassword")
+                              }
+                            >
+                              {showPassword.includes("confirmPassword") ? (
+                                <Visibility />
+                              ) : (
+                                <VisibilityOff />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Stack>
                   <Box px="20%">
