@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import All from "./pages/All";
@@ -15,7 +16,13 @@ import SearchPage from "./pages/Search";
 import SignUp from "./pages/SignUp";
 import User from "./pages/User";
 import UserDetail from "./pages/UserDetail";
+import { useAppDispatch } from "./redux/hooks";
+import { Start } from "./redux/userSlice";
 function App() {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(Start());
+  }, []);
   return (
     <div className="App">
       <Routes>
@@ -30,9 +37,9 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="finalcheckout" element={<FinalCheckOut />} />
           <Route path="formdemo" element={<MediaQuery />} />
-          <Route path="user" element={<User />} >
-          <Route path="detail" element={<UserDetail />} />
-          <Route path="history" element={<CheckoutHistory />} />
+          <Route path="user" element={<User />}>
+            <Route path="detail" element={<UserDetail />} />
+            <Route path="history" element={<CheckoutHistory />} />
           </Route>
           <Route path="detail" element={<ProductDetail />}>
             <Route path="?productId=:productId" element={<ProductDetail />} />

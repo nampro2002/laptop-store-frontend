@@ -31,7 +31,10 @@ export const register = createAsyncThunk(
     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
     let res;
     try {
-      res = await axios.post("https://laptop-store-backend-production.up.railway.app/register", newUser);
+      res = await axios.post(
+        "https://laptop-store-backend-production.up.railway.app/register",
+        newUser
+      );
     } catch (error: any) {
       throw new Error(error.response.data);
     }
@@ -44,7 +47,10 @@ export const login = createAsyncThunk(
   async (loginInfo: IUserLogin) => {
     let res;
     try {
-      res = await axios.post("https://laptop-store-backend-production.up.railway.app/login", loginInfo);
+      res = await axios.post(
+        "https://laptop-store-backend-production.up.railway.app/login",
+        loginInfo
+      );
     } catch (error: any) {
       throw new Error(error);
     }
@@ -76,9 +82,12 @@ export const updateInfo = createAsyncThunk(
 export const saveAddress = createAsyncThunk(
   "user/saveAddress",
   async ({ userId, address }: { userId: string; address: string }) => {
-    const res = await axiosJwt.patch(`https://laptop-store-backend-production.up.railway.app/user/${userId}`, {
-      address: address,
-    });
+    const res = await axiosJwt.patch(
+      `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+      {
+        address: address,
+      }
+    );
     return res.data;
   }
 );
@@ -95,8 +104,8 @@ export const updateAvatar = createAsyncThunk(
       `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
       updatedInfo
     );
-      console.log(res);
-      
+    console.log(res);
+
     return res.data;
   }
 );
@@ -112,13 +121,13 @@ export const updatePassword = createAsyncThunk(
     let res;
     try {
       console.log("updatepass");
-      
+
       res = await axiosJwt.patch(
         `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
         updatedPassword
       );
     } catch (error: any) {
-      console.log(error);      
+      console.log(error);
       throw new Error(error.response.data);
     }
 
@@ -130,6 +139,10 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    Start() {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    },
     GetUserInfo(state, action) {
       state.user = action.payload;
     },
@@ -196,5 +209,5 @@ const userSlice = createSlice({
 });
 
 const userReducer = userSlice.reducer;
-export const { AcceptLogin, Logout, GetUserInfo } = userSlice.actions;
+export const { AcceptLogin, Logout, GetUserInfo,Start } = userSlice.actions;
 export default userReducer;
