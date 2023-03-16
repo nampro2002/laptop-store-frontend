@@ -15,9 +15,7 @@ function FinalCheckOut() {
             />
           </Box>
           <Stack direction='column' alignItems='center' justifyContent='center'>
-            <Typography variant="h5"> Chuyển tiền chưa mà đòi hàng</Typography>
-            <Typography variant="h5">Liên Hệ Facebook để nhận stk</Typography>
-            <a href="https://www.facebook.com/profile.php?id=100011364880454">Nam Can</a>
+\             Cảm ơn bạn đã mua hàng
           </Stack>
         </Stack>
       </Box>
