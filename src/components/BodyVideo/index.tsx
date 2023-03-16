@@ -36,7 +36,7 @@ function BodyVideo() {
               }}
             >
               <video width="100%" controls>
-                <source src="imgs/others/sangtran.mp4" type="video/mp4" />
+                <source src="imgs/others/acer.mp4" type="video/mp4" />
                 Your browser does not support HTML video.
               </video>
             </Box>
