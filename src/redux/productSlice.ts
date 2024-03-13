@@ -25,14 +25,14 @@ const initialState: initState = {
 export const getAllProduct = createAsyncThunk(
   "products/getAllProduct",
   async () => {
-    const res = await axios.get("https://laptop-store-backend-production.up.railway.app/products");
+    const res = await axios.get("http://localhost:8080/products");
     return res.data;
   }
 );
 export const getAllCategory = createAsyncThunk(
   "products/getAllCategory",
   async () => {
-    const res = await axios.get("https://laptop-store-backend-production.up.railway.app/category");
+    const res = await axios.get("http://localhost:8080/category");
     return res.data;
   }
 );
@@ -40,7 +40,7 @@ export const updateProductRating = createAsyncThunk(
   "products/updateProductRating",
   async ({ productId, rate }: { productId: number; rate: number }) => {
     const res = await axiosJwt.put(
-      `https://laptop-store-backend-production.up.railway.app/rate/${productId}`,
+      `http://localhost:8080/product/rate/${productId}`,
       {
         rate,
       }

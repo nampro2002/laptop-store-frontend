@@ -22,14 +22,14 @@ export const getAllCart = createAsyncThunk(
     const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
     const res = await axiosJwt.get(
-      `https://laptop-store-backend-production.up.railway.app/api/cart?userId=${userId}`,
+      `http://localhost:8080/cart?userId=${userId}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       }
     );
-    // const res = await axios.get(`https://laptop-store-backend-production.up.railway.app/cart?userId=${userId}`);
+    // const res = await axios.get(`http://localhost:8080/cart?userId=${userId}`);
     return res.data;
   }
 );
@@ -44,7 +44,7 @@ export const CheckCart = createAsyncThunk(
     thunkAPI
   ) => {
     const res = await axiosJwt.get(
-      `https://laptop-store-backend-production.up.railway.app/api/cart?userId=${userId}`);
+      `http://localhost:8080/cart?userId=${userId}`);
     const cartList = res.data;
     const productCart: Omit<ICart, "id"> = {
       prodId: productId,
@@ -81,7 +81,7 @@ export const updateToCart = createAsyncThunk(
     productCart: Omit<ICart, "id" | "userId">;
   }) => {
     const res = await axiosJwt.put<ICart>(
-      `https://laptop-store-backend-production.up.railway.app/api/cart/${id}`,
+      `http://localhost:8080/cart/${id}`,
       productCart
     );
     return res.data;
@@ -92,7 +92,7 @@ export const updateToCart = createAsyncThunk(
 //   async (productCart: Omit<ICart, "id">) => {
 //     // console.log("productCart", productCart);
 //     const res = await axios.post<ICart>(
-//       "https://laptop-store-backend-production.up.railway.app/cart",
+//       "http://localhost:8080/cart",
 //       productCart
 //     );
 //     return res.data;
@@ -103,7 +103,7 @@ const addToCart = createAsyncThunk(
   "cartList/addToCart",
   async (productCart: Omit<ICart, "id">, { getState }) => {
     const res = await axiosJwt.post<ICart>(
-      "https://laptop-store-backend-production.up.railway.app/api/cart",
+      "http://localhost:8080/cart",
       productCart
 
     ); 
@@ -118,7 +118,7 @@ const addToCart = createAsyncThunk(
 //     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
 //     // const headers = jwt ? { Authorization: `Bearer ${jwt}` } : {}; // Tạo headers nếu token tồn tại
 //     const res = await axios.post<ICart>(
-//       "https://laptop-store-backend-production.up.railway.app/api/cart",
+//       "http://localhost:8080/api/cart",
 //       productCart
 //       // ,
 //       // {
@@ -138,7 +138,7 @@ const addToCart = createAsyncThunk(
 //   "cartList/decreaseQuantity",
 //   async ({id, productCart}: {id:number , productCart: Omit<ICart, "id">}) => {
 //     const res = await axios.put<ICart>(
-//       `https://laptop-store-backend-production.up.railway.app/cart/${id}`,
+//       `http://localhost:8080/cart/${id}`,
 //       productCart
 //     );
 //     return res.data;
@@ -148,7 +148,7 @@ const addToCart = createAsyncThunk(
 //   "cartList/increaseQuantity",
 //   async ({id, productCart}: {id:number , productCart: Omit<ICart, "id">}) => {
 //     const res = await axios.put<ICart>(
-//       `https://laptop-store-backend-production.up.railway.app/cart/${id}`,
+//       `http://localhost:8080/cart/${id}`,
 //       productCart
 //     );
 //     return res.data;
@@ -161,7 +161,7 @@ export const removeFromCart = createAsyncThunk(
     const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
     await axios.delete(
-      `https://laptop-store-backend-production.up.railway.app/api/cart?cartId=${productCartId}`,
+      `http://localhost:8080/cart?cartId=${productCartId}`,
       {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -176,7 +176,7 @@ export const removeAllFromCart = createAsyncThunk(
   async (userId: number) => {
     const jwtJson = localStorage.getItem("token"); // Lấy token từ Redux state
     const jwt = jwtJson ? JSON.parse(jwtJson) : {};
-    await axios.delete(`https://laptop-store-backend-production.up.railway.app/api/cartAll?userId=${userId}`, {
+    await axios.delete(`http://localhost:8080/cartAll?userId=${userId}`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },

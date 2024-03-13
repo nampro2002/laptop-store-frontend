@@ -15,7 +15,7 @@ export const getAllCheckedOut = createAsyncThunk(
   "checkedout/getAllCheckedOut",
   async (userId: string) => {
     const res = await axiosJwt.get(
-      `https://laptop-store-backend-production.up.railway.app/history?userId=${userId}`
+      `http://localhost:8080/history?userId=${userId}`
     );
     return res.data;
   }
@@ -24,7 +24,7 @@ export const addCheckedOut = createAsyncThunk(
   "checkedout/addCheckedOut",
   async (newCheckedOut: ICheckedout) => {
     const res = await axiosJwt.post(
-      `https://laptop-store-backend-production.up.railway.app/history`,
+      `http://localhost:8080/history`,
       newCheckedOut
     );
     return res.data;
@@ -35,7 +35,7 @@ export const addCheckedOut = createAsyncThunk(
 //   async () => {
 //     console.log("demo");
 //     const res = await axios.get(
-//       `https://laptop-store-backend-production.up.railway.app/api/todo/demo`, {
+//       `http://localhost:8080/api/todo/demo`, {
 //         headers: {
 //           Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuYW0iLCJyb2xlIjoiW1VTRVJdIiwiaWF0IjoxNjc4MDQ0NjY5LCJleHAiOjE2NzgxMzEwNjl9.4V3a7t65_yIv1wzodOIDN8JeuyEgnUFoCZYkeakCpDWTZUOXARbWiFo6fi5000uwxPagSG_P7okY_yqpgUdEYg`,
 //         },

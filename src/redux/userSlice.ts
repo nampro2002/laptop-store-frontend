@@ -21,7 +21,7 @@ const initialState: initState = {
 };
 
 // export const getAllUser = createAsyncThunk("user/getAllUser", async () => {
-//   const res = await axios.get("https://laptop-store-backend-production.up.railway.app/user/username");
+//   const res = await axios.get("http://localhost:8080/user/username");
 //   return res.data;
 // });
 export const register = createAsyncThunk(
@@ -32,7 +32,7 @@ export const register = createAsyncThunk(
     let res;
     try {
       res = await axios.post(
-        "https://laptop-store-backend-production.up.railway.app/register",
+        "http://localhost:8080/register",
         newUser
       );
     } catch (error: any) {
@@ -48,7 +48,7 @@ export const login = createAsyncThunk(
     let res;
     try {
       res = await axios.post(
-        "https://laptop-store-backend-production.up.railway.app/login",
+        "http://localhost:8080/login",
         loginInfo
       );
     } catch (error: any) {
@@ -69,7 +69,7 @@ export const updateInfo = createAsyncThunk(
     let res;
     try {
       res = await axiosJwt.put(
-        `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+        `http://localhost:8080/user/${userId}`,
         updatedInfo
       );
       console.log(res);
@@ -83,7 +83,7 @@ export const saveAddress = createAsyncThunk(
   "user/saveAddress",
   async ({ userId, address }: { userId: string; address: string }) => {
     const res = await axiosJwt.patch(
-      `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+      `http://localhost:8080/user/${userId}`,
       {
         address: address,
       }
@@ -101,7 +101,7 @@ export const updateAvatar = createAsyncThunk(
     updatedInfo: Omit<IUser, "id" | "password" | "username">;
   }) => {
     const res = await axiosJwt.put(
-      `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+      `http://localhost:8080/user/${userId}`,
       updatedInfo
     );
     console.log(res);
@@ -123,7 +123,7 @@ export const updatePassword = createAsyncThunk(
       console.log("updatepass");
 
       res = await axiosJwt.patch(
-        `https://laptop-store-backend-production.up.railway.app/user/${userId}`,
+        `http://localhost:8080/user/${userId}`,
         updatedPassword
       );
     } catch (error: any) {
